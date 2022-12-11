@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="Customer Support"
+        android:icon="@drawable/ic_person1"
+        android:id="@+id/person1"/>
+
+    <item
+        android:title="Deals @ Discounts"
+        android:icon="@drawable/ic_discount"
+        android:id="@+id/Deals"/>
+
+    <item
+        android:title="Scan to Pay"
+        android:icon="@drawable/ic_scanner"
+        android:id="@+id/scan"/>
+
+    <item
+        android:title="HBL Locator"
+        android:icon="@drawable/ic_location"
+        android:id="@+id/loacation"/>
+
+    <item
+        android:title="Pay Bills"
+        android:icon="@drawable/ic_payments"
+        android:id="@+id/payment"/>
+
+</menu>
