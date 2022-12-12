@@ -6,12 +6,16 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -21,6 +25,7 @@ import com.example.hblmobile.databinding.ActivityMainBinding;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
+import java.util.concurrent.Executor;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -35,10 +40,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     EditText editText1, editText2;
     Button btnsignin, btnsignup;
+    Button btncheckbalance;
+
+    Switch btnswitch;
 
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
+
+
 
 
 
@@ -81,6 +91,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnsignup = findViewById(R.id.SIGNUP);
         editText1 = findViewById(R.id.loginID);
         editText2 = findViewById(R.id.editTextTextPassword);
+        btnswitch = findViewById(R.id.print_switch);
+        btncheckbalance = findViewById(R.id.balance);
+
+        btncheckbalance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                Toast.makeText(MainActivity.this, "Your Account balance is 150,000", Toast.LENGTH_SHORT).show();
+            }
+        });
+        btnswitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(btnswitch.isChecked()){
+
+                    ///finger
+                    BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                            .setTitle("Use Fingerprint to open you HBL Account")
+                            .setDescription("Use your phone sensor")
+                            .setNegativeButtonText("cancel")
+                            .build();
+                    getPrompt().authenticate(promptInfo);
+
+                }
+
+                else {
+
+                }
+            }
+        });
 
 
 
@@ -138,36 +179,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
                 case R.id.customers:
-                  getSupportFragmentManager().beginTransaction().replace(R.id.inkro, aFragment).commit();
+                    replaceFragment(aFragment);
+                 // getSupportFragmentManager().beginTransaction().replace(R.id.inkro, aFragment).commit();
                   //return true;
                   Toast.makeText(this, "Customer Services", Toast.LENGTH_SHORT).show();
                   break;
                 case R.id.discount:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.inkro, bFragment).commit();
-                Toast.makeText(this, "Discounts", Toast.LENGTH_SHORT).show();
+                   // getSupportFragmentManager().beginTransaction().replace(R.id.inkro, bFragment).commit();
+                    replaceFragment(bFragment);
+
+                    Toast.makeText(this, "Discounts", Toast.LENGTH_SHORT).show();
                 break;
                 case R.id.konnect:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.inkro, cFragment).commit();
+                    replaceFragment(cFragment);
+
+                    //getSupportFragmentManager().beginTransaction().replace(R.id.inkro, cFragment).commit();
                 Toast.makeText(this, "Konnect App", Toast.LENGTH_SHORT).show();
                 break;
                 case R.id.installment:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.inkro, dFragment).commit();
+                    replaceFragment(dFragment);
+
+                    //getSupportFragmentManager().beginTransaction().replace(R.id.inkro, dFragment).commit();
                 Toast.makeText(this, "Gifts & Rewards", Toast.LENGTH_SHORT).show();
                 break;
                 case R.id.rewards:
-                getSupportFragmentManager().beginTransaction().replace(R.id.inkro, eFragment).commit();
+                    replaceFragment(eFragment);
+
+                    //getSupportFragmentManager().beginTransaction().replace(R.id.inkro, eFragment).commit();
                 Toast.makeText(this, "Gifts & Rewards", Toast.LENGTH_SHORT).show();
                 break;
                 case R.id.location:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.inkro, fFragment).commit();
+                    replaceFragment(fFragment);
+
+                    //getSupportFragmentManager().beginTransaction().replace(R.id.inkro, fFragment).commit();
                 Toast.makeText(this, "HBL Locator", Toast.LENGTH_SHORT).show();
                 break;
                 case R.id.charges:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.inkro, gFragment).commit();
+                    replaceFragment(gFragment);
+
+                    //getSupportFragmentManager().beginTransaction().replace(R.id.inkro, gFragment).commit();
                 Toast.makeText(this, "Charges", Toast.LENGTH_SHORT).show();
                 break;
                 case R.id.hblnisa:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.inkro, hFragment).commit();
+                    replaceFragment(hFragment);
+
+                    //getSupportFragmentManager().beginTransaction().replace(R.id.inkro, hFragment).commit();
                 Toast.makeText(this, "HBl Nisa", Toast.LENGTH_SHORT).show();
                 break;
 
@@ -175,10 +231,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         return true;
     }
+
+    private BiometricPrompt getPrompt(){
+
+        Executor executor = ContextCompat.getMainExecutor(this);
+        BiometricPrompt.AuthenticationCallback callback = new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+                notifyUser(errString.toString());
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                notifyUser("Authentication Succeeded!");
+                Intent intent = new Intent(MainActivity.this, SIGNINActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+                notifyUser("Authentication Failed");
+            }
+        };
+        BiometricPrompt biometricPrompt = new BiometricPrompt(this, executor, callback);
+                return biometricPrompt;
+    }
+
+    private void notifyUser(String message){
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
  private void replaceFragment(Fragment fragment){
      FragmentManager fragmentManager = getSupportFragmentManager();
      FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-     fragmentTransaction.replace(R.id.drawerLayout,fragment);
+     fragmentTransaction.replace(R.id.main_layout,fragment);
      fragmentTransaction.commit();
  }
 }
