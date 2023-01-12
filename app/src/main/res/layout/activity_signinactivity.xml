@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SIGNINActivity">
+    tools:context=".SIGNINActivity"
+    >
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:background="@color/orange"
+        android:background="@color/blue"
         android:text="Welcome to HBL"
         android:textSize="50dp"
 

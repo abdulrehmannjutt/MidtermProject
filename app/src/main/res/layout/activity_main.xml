@@ -5,13 +5,16 @@
     android:layout_width="match_parent"
     android:id="@+id/drawerLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/hbl1">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity"
+        android:layout_marginTop="20dp"
         android:id="@+id/main_layout">
+
 
 
 
@@ -35,6 +38,8 @@
 
 
         </Button>
+
+
 
 
 
@@ -81,17 +86,20 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColorHint="@color/black"
                     android:text="          "
                     android:textSize="30dp">
 
                 </TextView>
 
                 <EditText
+                    android:layout_marginTop="150dp"
                     android:id="@+id/loginID"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/input_bg"
-                    android:drawableStart="@drawable/ic_person"
+                    android:drawableStart="@drawable/ic_p"
+                    android:textColorHint="@color/black"
                     android:ems="10"
                     android:hint="LoginID"
                     android:inputType="textEmailAddress"
@@ -125,7 +133,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/input_bg"
-                    android:drawableStart="@drawable/ic_lock"
+                    android:drawableStart="@drawable/ic_l"
+                    android:textColorHint="@color/black"
                     android:ems="10"
                     android:hint="Password"
                     android:inputType="textPassword"
@@ -210,6 +219,7 @@
                     android:layout_width="240dp"
                     android:layout_height="35dp"
                     android:drawableStart="@drawable/ic_fingerprint"
+                    android:textColorHint="@color/black"
                     android:hint="Biometric Login"
                     android:textSize="24dp"
                     >
@@ -236,6 +246,7 @@
                 android:layout_gravity="center"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
+                android:textColorHint="@color/black"
                 android:text="        Tap here to open digital account" />
 
 
